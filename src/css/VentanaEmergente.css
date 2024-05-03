@@ -1,0 +1,129 @@
+:root {
+    --first-color: #304A47;
+    --button-color: #FFFFFF;
+    --button-color-alt: #8a922d7b;
+    --text-color: #3D5722;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    width: 100%;
+    display: inline-block;
+}
+
+body {
+    background-image: url(../img/Jungle.jpeg);
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+button :hover {
+    cursor: pointer;
+}
+
+/* NAVBAR */
+
+.Nav_Header {
+    background-color: var(--first-color);
+    height: 5rem;
+    align-content: center;
+} 
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_home {
+    padding-left: 1rem;
+}
+
+.nav_btn {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    gap: 0.5rem;
+}
+
+.btn_nav {
+    background-color: var(--button-color);
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border-color: transparent;
+}
+
+input {
+    border: none;
+    background-color: transparent;
+} 
+
+::placeholder {
+    color: var(--button-color);
+}
+
+section {
+    margin-top: 12rem;
+}
+
+.title {
+    color: var(--text-color);
+    border-color: black;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.box_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.box_text {
+    background-color: var(--button-color-alt);
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 5rem;
+}
+
+.box_text:hover {
+    background-color: var(--first-color);
+}
+
+.box_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+    gap: 2rem;
+}
+
+.btn_ingresar {
+    background-color: var(--button-color-alt);
+    color: var(--button-color);
+    font-weight: bold;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    border-radius: 2rem;
+    border-color: transparent;
+}
+
+.btn_ingresar:hover {
+    cursor: pointer;
+    background-color: var(--first-color);
+}
