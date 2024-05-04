@@ -64,3 +64,94 @@ button :hover {
     border-radius: 2rem;
     border-color: transparent;
 }
+
+::placeholder {
+    color: var(--button-color);
+}
+
+input {
+    border: none;
+    background-color: transparent;
+} 
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+    gap: 1rem;
+}
+
+.box_datos {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.box_datos h1 {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.box_datos input {
+    background-color: var(--button-color-alt);
+    border-radius: 5rem;
+    padding: 0 0.1rem;
+}
+
+.box_datos:hover input {
+    background-color: var(--first-color);
+    transition: 1s;
+}
+
+.Ingresar {
+    margin-top: 1rem;
+}
+
+.box_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.box_text {
+    background-color: var(--button-color-alt);
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 5rem;
+}
+
+.box_text:hover {
+    background-color: var(--first-color);
+    transition: 1s;
+}
+
+.box_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+.btn_Guardar {
+    background-color: var(--button-color-alt);
+    color: var(--button-color);
+    font-weight: bold;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    border-radius: 2rem;
+    border-color: transparent;
+}
+
+.btn_Guardar:hover {
+    cursor: pointer;
+    background-color: var(--first-color);
+    transition: 1s;
+}
