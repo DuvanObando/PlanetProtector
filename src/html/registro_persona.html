@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/registro_persona.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro Persona</title>
+    <link rel="stylesheet" href="../css/registro_persona.css" />
     <!-- Links Icon -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-</head>
-<body>
-            <!-- Nav -->
-            <header class="Nav_Header">
-                <!-- <nav class="nav">
-                    <div class="nav_home">
+  </head>
+  <body>
+    <!-- Nav -->
+    <header class="Nav_Header">
+        <!-- <nav class="nav">
+            <div class="nav_home">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAdlJREFUaEPtmdttwzAMRclNmk2aSdpM0naSZpNmk2YTNdewg0SWRD1IC0YlIMiHXveQlEzaTDtvvHP9NAB6e9DMA865VyL6ngG/mPlsAWsCMIv/8QSfLCDUASLiFxZ1CFUAQbwJhBpAQvyViF6swkkFICH+SEQ4zG9WEM0AKfHMfIHlnXOfVhBNADnil9CxgqgGKBFvCVEFUCPeCqIYoEW8BUQRgIZ4bYhsAE3xmhBZABbitSBEAEvxGhBJgC3Et0JEAbYU70F8BOqGaBYbBEhllcwshl1L4eJuj+zI/CDESoyUEncEANdxya8WyBAAKilkkMHWGeDKzIdHYSGA30Dqe5+zB4ClGPeLkAmiM4AcQn7c+IcqBOCcAyxuD8AHwR/WRYWGHw4l/p9azn7JECpdcBaPsKtpBx+iBwDe/bzXqL9FJN4XoVq7tx4AsXs7h2l1q3QHkA65JFDq960iPlWlBaX+ijP15FHJIANgeMBLDksNMkKo1GLSeKl/3EL+tVZqMWm81P8vPZCsD3LyhYYxq1SjxgMtyVqD9mnqmZlPqUVyrlHk9ygzpTy/Vaw/X7T+VGDl7Drn/PAEILYAwSdZpNqrgqc4hHIAe47J8kBPgdLeA0CykHX/Hxf4pkB17Jm0AAAAAElFTkSuQmCC"/>
                     </div>
                     <div class="nav_btn">
@@ -23,12 +23,70 @@
                         </div>
                         <div class="registro">
                             <button class="btn_nav">
-                                <a href="">Registrarse</a>
-                            </button>
-                        </div>
-                    </div>
-                </nav> -->
-            </header>
-            
-</body>
+                        <a href="">Registrarse</a>
+                    </button>
+                </div>
+            </div>
+        </nav> -->
+    </header>
+
+    <section>
+        <div class="icon_user">
+            <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" style="fill: rgba(138, 146, 45, 0.48);transform: msFilter"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path></svg>
+        </div>
+
+        <div class="box_registro">
+            <div class="box_datos">
+                <h1>Nombre</h1>
+                <input type="text" placeholder="     ingrese su nombre">
+            </div>
+        </div>
+
+        <div class="box_registro">
+            <div class="box_datos">
+                <h1>ID</h1>
+                <input type="tel" placeholder="     ingrese su id">
+            </div>
+        </div>
+
+        <div class="box_registro">
+            <div class="box_datos">
+                <h1>Email</h1>
+                <input type="email" placeholder="     ingrese su email">
+            </div>
+        </div>
+
+        <div class="Ingresar">
+            <div class="title">
+                <h1>Ingrese Contraseña</h1>
+            </div>
+            <div class="box_input">
+                <div class="box_text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: msFilter"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                    <input type="password" placeholder="     Contraseña">
+                </div>
+            </div>
+        </div>
+        
+        <div class="confirmar">
+            <div class="title">
+                <h1>Confirmar contraseña</h1>
+            </div>
+            <div class="box_input">
+                <div class="box_text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: msFilter"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                    <input type="password" placeholder="     Confirmar Contraseña">
+                </div>
+            </div>
+        </div>
+
+        <div class="box_btn">
+            <div>
+                <button class="btn_Guardar">Guardar</button>
+            </div>
+        </div>
+
+    </section>
+
+  </body>
 </html>

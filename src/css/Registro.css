@@ -100,12 +100,12 @@ section {
 
 .box_title {
     background-color: var(--button-color-alt);
-    color: var(--button-color);
     padding: 0.4rem 2rem 0.4rem 2rem;
     border-radius: 2rem;
 }
 
-.box_title h1 {
+.box_title a {
+    color: var(--button-color);
     font-size: 25px;
     font-weight: bolder;
 }
