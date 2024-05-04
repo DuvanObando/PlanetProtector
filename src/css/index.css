@@ -29,10 +29,6 @@ a {
     color: var(--text-color);
 }
 
-button :hover {
-    cursor: pointer;
-}
-
 /* NAVBAR */
 
 .Nav_Header {
@@ -63,6 +59,17 @@ button :hover {
     padding: 0.5rem;
     border-radius: 2rem;
     border-color: transparent;
+}
+
+.btn_nav:hover {
+    background-color: var(--button-color-alt);
+    transition: 1s;
+}
+
+.btn_nav:hover a {
+    color: var(--button-color);
+    font-weight: bold;
+    transition: 1s;
 }
 
 .img_publicidad {
