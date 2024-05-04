@@ -104,6 +104,7 @@ section {
 
 .box_text:hover {
     background-color: var(--first-color);
+    transition: 1s;
 }
 
 .box_btn {
@@ -126,4 +127,5 @@ section {
 .btn_ingresar:hover {
     cursor: pointer;
     background-color: var(--first-color);
+    transition: 1s;
 }

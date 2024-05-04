@@ -68,7 +68,7 @@ button:hover {
 /* Hasta Aqui */
 
 section{
-    margin-top: 9rem;
+    margin-top: 7rem;
 }
 
 .titlle {
@@ -76,7 +76,7 @@ section{
     border-color: black;
     font-size: 2.2rem;
     text-align: center;
-    margin-top: 12rem;
+    margin-top: 10rem;
 }
 
 .box_icon_user {
@@ -103,6 +103,7 @@ section{
 
 .box_text:hover {
     background-color: var(--first-color);
+    transition: 1s;
 }
 
 ::placeholder {
@@ -134,13 +135,24 @@ input {
 .btn_inicio:hover {
     cursor: pointer;
     background-color: var(--first-color);
+    transition: 1s;
 }
 
 .new_User{
     text-align: center;
     font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.new_User:hover a {
+.registro:hover a{
     color: var(--button-color-alt);
+    transition: 1s;
 }
+
+.olvidoContra:hover a{
+    color: var(--button-color-alt);
+    transition: 1s;
+}
+
