@@ -64,3 +64,61 @@ button :hover {
     border-radius: 2rem;
     border-color: transparent;
 }
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8rem;
+    gap: 1rem;
+}
+
+.title {
+    color: var(--text-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.tags {
+    display: grid;
+    grid-template-columns: repeat(3, 8fr);
+    grid-gap: 1.5rem;
+}
+
+.tag {
+    background-color: var(--button-color-alt);
+    color: var(--button-color);
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 2rem;
+    padding: 0 1rem ;
+}
+
+.tag:hover {
+    background-color: var(--first-color);
+    cursor: pointer;
+    transition: 1s;
+}
+
+.box_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+.btn_Guardar {
+    background-color: var(--button-color-alt);
+    color: var(--button-color);
+    font-weight: bold;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    border-radius: 2rem;
+    border-color: transparent;
+}
+
+.btn_Guardar:hover {
+    cursor: pointer;
+    background-color: var(--first-color);
+    transition: 1s;
+}
