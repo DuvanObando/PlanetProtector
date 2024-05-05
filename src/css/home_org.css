@@ -1,0 +1,121 @@
+:root {
+    --first-color: #304A47;
+    --button-color: #FFFFFF;
+    --button-color-alt: #8a922d7b;
+    --text-color: #3D5722;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    width: 100%;
+    display: inline-block;
+}
+
+body {
+    background-image: url(../img/Jungle.jpeg);
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+ul {
+    list-style: none;
+}
+
+button :hover {
+    cursor: pointer;
+}
+
+/* NAVBAR */
+
+.Nav_Header {
+    background-color: var(--first-color);
+    height: 5rem;
+    align-content: center;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+} 
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_home {
+    margin: 1rem;
+}
+
+.nav_home:hover {
+    cursor: pointer;    background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
+    transition: 1s;
+}
+
+.nav_btn {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    gap: 0.5rem;
+}
+
+.icon_campana:hover {
+    cursor: pointer;
+    background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
+    transition: 1s;
+}
+
+.icon_menu:hover {
+    cursor: pointer;
+    background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
+    transition: 1s;
+}
+
+.menu {
+    position: fixed;
+    background-color: var(--first-color);
+    left: 100%;
+    width: 100%;
+    height: calc(100% - 5rem);
+    top: 5rem;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--button-color);
+    gap: 1rem;
+    transition: left 1s;
+}
+
+.menu_show {
+    left: 0;
+}
+
+li:hover {
+    cursor: pointer;
+    background-color: var(--text-color);
+    text-align: center;
+    width: 60%;
+    border-radius: 0.5rem;
+    transform: scale(1.1);
+    transition: 1s;
+}
