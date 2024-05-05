@@ -29,22 +29,24 @@ export async function existeRegistro(coleccion, idRegistro) {
 
 // Inicia sesión de usuario y retorna al objeto que lo representa.
 // Puede retornar null si hay un error al momento de iniciar sesión.
-export function iniciarSesionVoluntario(correoElectronico, contrasena) {
+export async function iniciarSesion(correoElectronico, contrasena) {
     var usuario;
-    signInWithEmailAndPassword(auth, correoElectronico, contrasena)
-    .then((credencialesUsuario) => {
+    var tipoUsuario;
+    await signInWithEmailAndPassword(auth, correoElectronico, contrasena)
+    .then(async (credencialesUsuario) => {
         usuario = credencialesUsuario.user;
         // Se comprueba el tipo de usuario.
-        if (existeRegistro("voluntarios", usuario.uid)) {
-            console.error("No se puede iniciar sesión, siendo organización, en la interfaz de voluntarios.");
-            usuario = null;
-            return;
+        if (await existeRegistro("voluntarios", usuario.uid)) {
+            tipoUsuario = "voluntario";
+        } else if (await existeRegistro("organizaciones", usuario.uid)) {
+            tipoUsuario = "organización";
         }
     })
     .catch((error) => {
-        mostrarErrorEnConsola(error, "Error al momento de iniciar la sesión de voluntario");
+        mostrarErrorEnConsola(error, "Error al momento de iniciar la sesión del usuario.");
+        tipoUsuario = error.code;
     });
-    return usuario;
+    return [usuario, tipoUsuario];
 }
 
 // Una función para mostrar un error de firebase en la consola con un mensaje que indique la ubicación del error.
@@ -56,12 +58,12 @@ function mostrarErrorEnConsola(error, mensaje) {
 
 // Para el registro de usuarios se usó Firebase Auth, un servicio que permite la creación de usuarios de forma fácil.
 // El atributo 'informacionPersonal' espera un diccionario con el nombre del campo y el valor del campo (por ejemplo 'nombre': 'Juanito Gacha')
-export function registrarVoluntario(correoElectronico, contrasena, informacionPersonal) {
+export async function registrarVoluntario(correoElectronico, contrasena, informacionPersonal) {
     // Crea un usuario con un correo electrónico y una contraseña.
     // Hay algunos campos que el objeto user acepta, como el nombre o el número de teléfono, pero no
     // tiene predefinido, por ejemplo, el campo de número de documento, hoja de vida, y otros. Para los
     // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
-    createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
+    await createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
     .then((credencialesUsuario) => {
         const usuario = credencialesUsuario.user;
         // Se edita el campo de nombre.
@@ -93,12 +95,12 @@ export function registrarVoluntario(correoElectronico, contrasena, informacionPe
 
 // Para el registro de usuarios se usó Firebase Auth, un servicio que permite la creación de usuarios de forma fácil.
 // El atributo 'informacionPersonal' espera un diccionario con el nombre del campo y el valor del campo (por ejemplo 'nombre': 'Juanito Gacha')
-export function registrarOrganizacion(correoElectronico, contrasena, informacionOrganizacional) {
+export async function registrarOrganizacion(correoElectronico, contrasena, informacionOrganizacional) {
     // Crea un usuario con un correo electrónico y una contraseña.
     // Hay algunos campos que el objeto user acepta, como el nombre o el número de teléfono, pero no
     // tiene predefinido, por ejemplo, el campo de número de documento, hoja de vida, y otros. Para los
     // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
-    createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
+    await createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
     .then((credencialesUsuario) => {
         const usuario = credencialesUsuario.user;
         // Se edita el campo de nombre.

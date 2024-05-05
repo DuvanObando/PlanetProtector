@@ -4,22 +4,22 @@ import { obtenerContrasenaPorId, obtenerCorreoElectronicoPorId, obtenerNombrePor
 var btnGuardarRegistroVoluntario = document.getElementById("btn_Guardar_registro_organizacion");
 btnGuardarRegistroVoluntario.addEventListener('click', function() {
     const nombre = obtenerNombrePorId("nombre_registro_organizacion");
-    if (nombre === null) {
+    if (nombre == null) {
         alert("Nombre inválido.");
         return;
     }
     const nit = obtenerNumeroPorId("nit_registro_organizacion");
-    if (nit === null) {
+    if (nit == null) {
         alert("NIT inválido.");
         return;
     }
     const correoElectronico = obtenerCorreoElectronicoPorId("correo_electronico_registro_organizacion");
-    if (correoElectronico === null) {
+    if (correoElectronico == null) {
         alert("Correo electrónico inválido.");
         return;
     }
     const contrasena = obtenerContrasenaPorId("contrasena_registro_organizacion");
-    if (contrasena === null) {
+    if (contrasena == null) {
         alert("Formato inválido. La longitud tiene que ser de mínimo 8 y máximo 30.");
         return;
     }
