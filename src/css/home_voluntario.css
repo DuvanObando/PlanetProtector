@@ -29,6 +29,10 @@ a {
     color: var(--text-color);
 }
 
+ul {
+    list-style: none;
+}
+
 /* NAVBAR */
 
 .Nav_Header {
@@ -44,7 +48,14 @@ a {
 }
 
 .nav_home {
-    padding-left: 1rem;
+    margin: 1rem;
+}
+
+.nav_home:hover {
+    cursor: pointer;    background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
+    transition: 1s;
 }
 
 .nav_btn {
@@ -61,14 +72,51 @@ a {
     border-color: transparent;
 }
 
-.btn_nav:hover {
+.icon_campana:hover {
+    cursor: pointer;
     background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
     transition: 1s;
 }
 
-.btn_nav:hover a {
+.icon_menu:hover {
+    cursor: pointer;
+    background-color: var(--button-color-alt);
+    border-radius: 0.3rem;
+    transform: scale(1.2);
+    transition: 1s;
+}
+
+.menu {
+    position: fixed;
+    background-color: var(--first-color);
+    left: 100%;
+    width: 100%;
+    height: calc(100% - 5rem);
+    top: 5rem;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
     color: var(--button-color);
-    font-weight: bold;
+    gap: 1rem;
+    transition: left 1s;
+}
+
+.menu_show {
+    left: 0;
+}
+
+li:hover {
+    cursor: pointer;
+    background-color: var(--text-color);
+    text-align: center;
+    width: 60%;
+    border-radius: 0.5rem;
+    transform: scale(1.1);
     transition: 1s;
 }
 
