@@ -2,7 +2,7 @@ import { registrarVoluntario } from "./funciones_firebase.js";
 import { obtenerContrasenaPorId, obtenerCorreoElectronicoPorId, obtenerNombrePorId, obtenerNumeroPorId } from "./funciones_input.js";
 
 var btnGuardarRegistroVoluntario = document.getElementById("btn_Guardar_registro_voluntario");
-btnGuardarRegistroVoluntario.addEventListener("click", function() {
+btnGuardarRegistroVoluntario.addEventListener("click", async function() {
     const nombre = obtenerNombrePorId("nombre_registro_voluntario");
     if (nombre == null) {
         alert("Nombre inválido.");
@@ -28,5 +28,5 @@ btnGuardarRegistroVoluntario.addEventListener("click", function() {
         alert("Las contraseñas no coinciden.");
         return;
     }
-    registrarVoluntario(correoElectronico, contrasena, {numeroDocumento: numeroDocumento, nombre: nombre});
+    await registrarVoluntario(correoElectronico, contrasena, {numeroDocumento: numeroDocumento, nombre: nombre});
 });

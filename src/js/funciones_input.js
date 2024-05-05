@@ -1,19 +1,19 @@
 // Acepta todo caracter visible.
 function contrasenaEsValida(contrasena) {
-    return !(contrasena.match("[ -~]{8,30}") === null);
+    return !(contrasena.match(/[ -~]{8,30}/) == null);
 }
 
 // Basado en el estándar RFC 2822
 function correoElectronicoEsValido(correoElectronico) {
-    return !(correoElectronico.match("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?") === null);
+    return !(correoElectronico.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) == null);
 }
 
 function nombreEsValido(nombre) {
-    return !(nombre.match("[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ,.\- ]{1,200}") === null);
+    return !(nombre.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ,.\- ]{1,200}/) === null);
 }
 
 function numeroEsValido(numero) {
-    return !(numero.match("[0-9]{1,30}") === null);
+    return !(numero.match(/[0-9]{1,30}/) === null);
 }
 
 export function obtenerCorreoElectronicoPorId(idElemento) {

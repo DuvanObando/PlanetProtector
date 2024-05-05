@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -15,6 +15,7 @@ const firebaseConfig = {
 // Inicialización de las variables de Firebase.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+auth.useDeviceLanguage();
 const db = getFirestore(app);
 
 // En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en
@@ -56,6 +57,17 @@ function mostrarErrorEnConsola(error, mensaje) {
     console.error(`Mensaje del error: ${error.message}`);
 }
 
+// Manda un link de reestablecimiento de contraseña al correo proveido.
+export async function reestablecerContrasena(correoElectronico) {
+    await sendPasswordResetEmail(auth, correoElectronico)
+    .then(() => {
+        alert("Link de reestablecimiento de contraseña enviado. Revisa tu correo.");
+    })
+    .catch((error) => {
+        mostrarErrorEnConsola(error, "Error al momento de enviar correo de reestablecimiento de contraseña.")
+    });
+}
+
 // Para el registro de usuarios se usó Firebase Auth, un servicio que permite la creación de usuarios de forma fácil.
 // El atributo 'informacionPersonal' espera un diccionario con el nombre del campo y el valor del campo (por ejemplo 'nombre': 'Juanito Gacha')
 export async function registrarVoluntario(correoElectronico, contrasena, informacionPersonal) {
@@ -87,6 +99,8 @@ export async function registrarVoluntario(correoElectronico, contrasena, informa
         .catch((error) => {
             mostrarErrorEnConsola(error, "Error al momento de crear documento");
         });
+        alert("Registro completado.");
+        window.location.href = "/src/html/log-in.html";
     })
     .catch((error) => {
         mostrarErrorEnConsola(error, "Error al momento de crear usuario");
@@ -124,6 +138,8 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
         .catch((error) => {
             mostrarErrorEnConsola(error, "Error al momento de crear documento");
         });
+        alert("Registro completado.");
+        window.location.href = "/src/html/log-in.html";
     })
     .catch((error) => {
         mostrarErrorEnConsola(error, "Error al momento de crear usuario");
