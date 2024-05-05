@@ -1,0 +1,108 @@
+:root {
+    --first-color: #304A47;
+    --button-color: #FFFFFF;
+    --button-color-alt: #8a922d7b;
+    --text-color: #3D5722;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    width: 100%;
+    display: inline-block;
+}
+
+body {
+    background-image: url(../img/Jungle.jpeg);
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+/* NAVBAR */
+
+.Nav_Header {
+    background-color: var(--first-color);
+    height: 5rem;
+    align-content: center;
+} 
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_home {
+    padding-left: 1rem;
+}
+
+.nav_btn {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    gap: 0.5rem;
+}
+
+.btn_nav {
+    background-color: var(--button-color);
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border-color: transparent;
+}
+
+.btn_nav:hover {
+    background-color: var(--button-color-alt);
+    transition: 1s;
+}
+
+.btn_nav:hover a {
+    color: var(--button-color);
+    font-weight: bold;
+    transition: 1s;
+}
+
+.img_publicidad {
+    padding-top: 4rem;
+    text-align: center;
+}
+
+.img_publicidad img {
+    width: 50%; /* La imagen ocupará el 50% del ancho del contenedor */
+    height: auto; /* La altura se ajusta automáticamente para mantener la proporción */
+    border-radius: 2rem;
+}
+
+.ofertas {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 5rem;
+}
+
+.box_ofertas {
+    background-color: var(--button-color-alt);
+    display: flex;
+    justify-content: space-between;
+    border-color: transparent;
+    border-radius: 0.9rem;
+    gap: 1rem;
+}
+
+.info_ofertas {
+    color: var(--button-color);
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin: 1.5rem 1.5rem 1.5rem 0;
+}

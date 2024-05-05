@@ -51,6 +51,10 @@ button :hover {
     padding-left: 1rem;
 }
 
+.nav_home:hover {
+    cursor: pointer;
+}
+
 .nav_btn {
     display: flex;
     align-items: center;
