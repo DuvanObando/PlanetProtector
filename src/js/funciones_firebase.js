@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCWginihqxxOLUh6IZI4nOqI6Nmb02qsoQ",
@@ -12,10 +12,40 @@ const firebaseConfig = {
     measurementId: "G-HN1H1BP23E",
 };
 
-// Initialize Firebase
+// Inicialización de las variables de Firebase.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en
+// una base de datos convencional.
+
+// Mira si un registro en la colección 'coleccion' con id 'id_registro' existe.
+export async function existeRegistro(coleccion, idRegistro) {
+    const referenciaDocumento = doc(db, coleccion, idRegistro);
+    const snapshotDocumento = await getDoc(referenciaDocumento);
+    return snapshotDocumento.exists();
+}
+
+// Inicia sesión de usuario y retorna al objeto que lo representa.
+// Puede retornar null si hay un error al momento de iniciar sesión.
+export function iniciarSesionVoluntario(correoElectronico, contrasena) {
+    var usuario;
+    signInWithEmailAndPassword(auth, correoElectronico, contrasena)
+    .then((credencialesUsuario) => {
+        usuario = credencialesUsuario.user;
+        // Se comprueba el tipo de usuario.
+        if (existeRegistro("voluntarios", usuario.uid)) {
+            console.error("No se puede iniciar sesión, siendo organización, en la interfaz de voluntarios.");
+            usuario = null;
+            return;
+        }
+    })
+    .catch((error) => {
+        mostrarErrorEnConsola(error, "Error al momento de iniciar la sesión de voluntario");
+    });
+    return usuario;
+}
 
 // Una función para mostrar un error de firebase en la consola con un mensaje que indique la ubicación del error.
 function mostrarErrorEnConsola(error, mensaje) {
@@ -33,9 +63,9 @@ export function registrarVoluntario(correoElectronico, contrasena, informacionPe
     // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
     createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
     .then((credencialesUsuario) => {
-        const user = credencialesUsuario.user;
+        const usuario = credencialesUsuario.user;
         // Se edita el campo de nombre.
-        updateProfile(user, {
+        updateProfile(usuario, {
             displayName: informacionPersonal["nombre"],
         })
         .then(() => {
@@ -46,7 +76,7 @@ export function registrarVoluntario(correoElectronico, contrasena, informacionPe
         });
         // Se edita el campo de número de documento.
         // En la base de datos se guarda el usuario con el uid que proporciona Firebase Auth.
-        const referenciaDocumento = setDoc(doc(db, "voluntarios", user.uid), {
+        const referenciaDocumento = setDoc(doc(db, "voluntarios", usuario.uid), {
             numeroDocumento: informacionPersonal["numeroDocumento"],
         })
         .then(() => {
@@ -70,9 +100,9 @@ export function registrarOrganizacion(correoElectronico, contrasena, informacion
     // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
     createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
     .then((credencialesUsuario) => {
-        const user = credencialesUsuario.user;
+        const usuario = credencialesUsuario.user;
         // Se edita el campo de nombre.
-        updateProfile(user, {
+        updateProfile(usuario, {
             displayName: informacionOrganizacional["nombre"],
         })
         .then(() => {
@@ -83,7 +113,7 @@ export function registrarOrganizacion(correoElectronico, contrasena, informacion
         });
         // Se edita el campo de número de NIT.
         // En la base de datos se guarda el usuario con el uid que proporciona Firebase Auth.
-        const referenciaDocumento = setDoc(doc(db, "organizaciones", user.uid), {
+        const referenciaDocumento = setDoc(doc(db, "organizaciones", usuario.uid), {
             nit: informacionOrganizacional["nit"],
         })
         .then(() => {
