@@ -1,5 +1,11 @@
 import { registrarVoluntario } from "./funciones_firebase.js";
-import { obtenerContrasenaPorId, obtenerCorreoElectronicoPorId, obtenerNombrePorId, obtenerNumeroPorId } from "./funciones_input.js";
+import {
+    limpiarCampoPorId,
+    obtenerContrasenaPorId,
+    obtenerCorreoElectronicoPorId,
+    obtenerNombrePorId,
+    obtenerNumeroPorId
+} from "./funciones_input.js";
 
 var btnGuardarRegistroVoluntario = document.getElementById("btn_Guardar_registro_voluntario");
 btnGuardarRegistroVoluntario.addEventListener("click", async function() {
@@ -28,5 +34,12 @@ btnGuardarRegistroVoluntario.addEventListener("click", async function() {
         alert("Las contraseñas no coinciden.");
         return;
     }
-    await registrarVoluntario(correoElectronico, contrasena, {numeroDocumento: numeroDocumento, nombre: nombre});
+    await registrarVoluntario(correoElectronico, contrasena, {numeroDocumento: numeroDocumento, nombre: nombre})
+    limpiarCampoPorId("nombre_registro_voluntario");
+    limpiarCampoPorId("numero_documento_registro_voluntario");
+    limpiarCampoPorId("correo_electronico_registro_voluntario");
+    limpiarCampoPorId("contrasena_registro_voluntario");
+    limpiarCampoPorId("confirmacion_contrasena_registro_voluntario");
+    alert("Registro completo");
+    window.location.href = "./log-in.html";
 });

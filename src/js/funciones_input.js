@@ -47,3 +47,8 @@ export function obtenerNumeroPorId(idElemento) {
     }
     return numero;
 }
+
+export function limpiarCampoPorId(idElemento) {
+    const campo = document.getElementById(idElemento);
+    campo.value = "";
+}

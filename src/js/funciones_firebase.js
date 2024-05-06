@@ -15,7 +15,6 @@ const firebaseConfig = {
 // Inicialización de las variables de Firebase.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-auth.useDeviceLanguage();
 const db = getFirestore(app);
 
 // En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en
@@ -33,115 +32,82 @@ export async function existeRegistro(coleccion, idRegistro) {
 export async function iniciarSesion(correoElectronico, contrasena) {
     var usuario;
     var tipoUsuario;
-    await signInWithEmailAndPassword(auth, correoElectronico, contrasena)
-    .then(async (credencialesUsuario) => {
+    try {
+        const credencialesUsuario = await signInWithEmailAndPassword(auth, correoElectronico, contrasena);
         usuario = credencialesUsuario.user;
-        // Se comprueba el tipo de usuario.
         if (await existeRegistro("voluntarios", usuario.uid)) {
             tipoUsuario = "voluntario";
-        } else if (await existeRegistro("organizaciones", usuario.uid)) {
+        } else if (await existeRegistro("organizaiones", usuario.uid)) {
             tipoUsuario = "organización";
         }
-    })
-    .catch((error) => {
-        mostrarErrorEnConsola(error, "Error al momento de iniciar la sesión del usuario.");
-        tipoUsuario = error.code;
-    });
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de iniciar sesión");
+    }
     return [usuario, tipoUsuario];
 }
 
 // Una función para mostrar un error de firebase en la consola con un mensaje que indique la ubicación del error.
-function mostrarErrorEnConsola(error, mensaje) {
+export function mostrarErrorEnConsola(error, mensaje) {
     console.error(mensaje);
     console.error(`Código del error: ${error.code}`);
     console.error(`Mensaje del error: ${error.message}`);
 }
 
-// Manda un link de reestablecimiento de contraseña al correo proveido.
-export async function reestablecerContrasena(correoElectronico) {
-    await sendPasswordResetEmail(auth, correoElectronico)
-    .then(() => {
-        alert("Link de reestablecimiento de contraseña enviado. Revisa tu correo.");
-    })
-    .catch((error) => {
+// Manda un link de restablecimiento de contraseña al correo proveído.
+export async function restablecerContrasena(correoElectronico) {
+    try {
+        await sendPasswordResetEmail(auth, correoElectronico);
+    } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de enviar correo de reestablecimiento de contraseña.")
-    });
+    }
 }
 
 // Para el registro de usuarios se usó Firebase Auth, un servicio que permite la creación de usuarios de forma fácil.
 // El atributo 'informacionPersonal' espera un diccionario con el nombre del campo y el valor del campo (por ejemplo 'nombre': 'Juanito Gacha')
 export async function registrarVoluntario(correoElectronico, contrasena, informacionPersonal) {
-    // Crea un usuario con un correo electrónico y una contraseña.
-    // Hay algunos campos que el objeto user acepta, como el nombre o el número de teléfono, pero no
-    // tiene predefinido, por ejemplo, el campo de número de documento, hoja de vida, y otros. Para los
-    // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
-    await createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
-    .then((credencialesUsuario) => {
-        const usuario = credencialesUsuario.user;
-        // Se edita el campo de nombre.
-        updateProfile(usuario, {
-            displayName: informacionPersonal["nombre"],
-        })
-        .then(() => {
-            // OK.
-        })
-        .catch((error) => {
+    try {
+        const credencialesUsuario = await createUserWithEmailAndPassword(auth, correoElectronico, contrasena);
+        const voluntario = credencialesUsuario.user;
+        try {
+            await updateProfile(voluntario, {
+                displayName: informacionPersonal["nombre"],
+            })
+        } catch (error) {
             mostrarErrorEnConsola(error, "Error al momento de editar información de usuario");
-        });
-        // Se edita el campo de número de documento.
-        // En la base de datos se guarda el usuario con el uid que proporciona Firebase Auth.
-        const referenciaDocumento = setDoc(doc(db, "voluntarios", usuario.uid), {
-            numeroDocumento: informacionPersonal["numeroDocumento"],
-        })
-        .then(() => {
-            // OK.
-        })
-        .catch((error) => {
+        }
+        try {
+            await setDoc(doc(db, "voluntarios", voluntario.uid), {
+                numeroDocumento: informacionPersonal["numeroDocumento"],
+            })
+        } catch (error) {
             mostrarErrorEnConsola(error, "Error al momento de crear documento");
-        });
-        alert("Registro completado.");
-        window.location.href = "/src/html/log-in.html";
-    })
-    .catch((error) => {
+        }
+    } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de crear usuario");
-    });
+    }
 }
 
 // Para el registro de usuarios se usó Firebase Auth, un servicio que permite la creación de usuarios de forma fácil.
 // El atributo 'informacionPersonal' espera un diccionario con el nombre del campo y el valor del campo (por ejemplo 'nombre': 'Juanito Gacha')
 export async function registrarOrganizacion(correoElectronico, contrasena, informacionOrganizacional) {
-    // Crea un usuario con un correo electrónico y una contraseña.
-    // Hay algunos campos que el objeto user acepta, como el nombre o el número de teléfono, pero no
-    // tiene predefinido, por ejemplo, el campo de número de documento, hoja de vida, y otros. Para los
-    // campos que vienen predefinidos dentro del objeto toca almacenarlos en la base de datos de forma convencional.
-    await createUserWithEmailAndPassword(auth, correoElectronico, contrasena)
-    .then((credencialesUsuario) => {
-        const usuario = credencialesUsuario.user;
-        // Se edita el campo de nombre.
-        updateProfile(usuario, {
-            displayName: informacionOrganizacional["nombre"],
-        })
-        .then(() => {
-            // OK.
-        })
-        .catch((error) => {
-            mostrarErrorEnConsola(error, "Error al momento de editar información de usuario");
-        });
-        // Se edita el campo de número de NIT.
-        // En la base de datos se guarda el usuario con el uid que proporciona Firebase Auth.
-        const referenciaDocumento = setDoc(doc(db, "organizaciones", usuario.uid), {
-            nit: informacionOrganizacional["nit"],
-        })
-        .then(() => {
-            // OK.
-        })
-        .catch((error) => {
-            mostrarErrorEnConsola(error, "Error al momento de crear documento");
-        });
-        alert("Registro completado.");
-        window.location.href = "/src/html/log-in.html";
-    })
-    .catch((error) => {
-        mostrarErrorEnConsola(error, "Error al momento de crear usuario");
-    });
+    try {
+        const credencialesUsuario = await createUserWithEmailAndPassword(auth, correoElectronico, contrasena);
+        const organizacion = credencialesUsuario.user;
+        try {
+            await updateProfile(organizacion, {
+                displayName: informacionOrganizacional["nombre"],
+            })
+        } catch (error) {
+            mostrarErrorEnConsola(error, "Error al momento de editar información de organización");
+        }
+        try {
+            await setDoc(doc(db, "organizaciones", organizacion.uid), {
+                numeroDocumento: informacionOrganizacional["numeroDocumento"],
+            })
+        } catch (error) {
+            mostrarErrorEnConsola(error, "Error al momento de crear documento de organización");
+        }
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de crear organización");
+    }
 }

@@ -1,8 +1,14 @@
 import { registrarOrganizacion } from "./funciones_firebase.js";
-import { obtenerContrasenaPorId, obtenerCorreoElectronicoPorId, obtenerNombrePorId, obtenerNumeroPorId } from "./funciones_input.js";
+import {
+    limpiarCampoPorId,
+    obtenerContrasenaPorId,
+    obtenerCorreoElectronicoPorId,
+    obtenerNombrePorId,
+    obtenerNumeroPorId
+} from "./funciones_input.js";
 
-var btnGuardarRegistroVoluntario = document.getElementById("btn_Guardar_registro_organizacion");
-btnGuardarRegistroVoluntario.addEventListener('click', async function() {
+var btnGuardarRegistroOrganizacion = document.getElementById("btn_Guardar_registro_organizacion");
+btnGuardarRegistroOrganizacion.addEventListener("click", async function() {
     const nombre = obtenerNombrePorId("nombre_registro_organizacion");
     if (nombre == null) {
         alert("Nombre inválido.");
@@ -28,5 +34,12 @@ btnGuardarRegistroVoluntario.addEventListener('click', async function() {
         alert("Las contraseñas no coinciden")
         return;
     }
-    await registrarOrganizacion(correoElectronico, contrasena, {nit: nit, nombre: nombre});
+    await registrarOrganizacion(correoElectronico, contrasena, {nit: nit, nombre: nombre})
+    limpiarCampoPorId("nombre_registro_organizacion");
+    limpiarCampoPorId("nit_registro_organizacion");
+    limpiarCampoPorId("correo_electronico_registro_organizacion");
+    limpiarCampoPorId("contrasena_registro_organizacion");
+    limpiarCampoPorId("confirmacion_contrasena_registro_organizacion");
+    alert("Registro completo");
+    window.location.href = "./log-in.html";
 });

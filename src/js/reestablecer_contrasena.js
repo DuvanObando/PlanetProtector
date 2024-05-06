@@ -1,4 +1,4 @@
-import { reestablecerContrasena } from "./funciones_firebase.js";
+import { restablecerContrasena } from "./funciones_firebase.js";
 import { obtenerCorreoElectronicoPorId } from "./funciones_input.js";
 
 var btnEnviarReestablecerContrasena = document.getElementById("btn_enviar_reestablecer_contrasena");
@@ -8,5 +8,5 @@ btnEnviarReestablecerContrasena.addEventListener("click", async function() {
         alert("Correo electrónico inválido.");
         return;
     }
-    await reestablecerContrasena(correoElectronico);
+    await restablecerContrasena(correoElectronico);
 });
