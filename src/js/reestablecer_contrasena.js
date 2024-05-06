@@ -9,4 +9,5 @@ btnEnviarReestablecerContrasena.addEventListener("click", async function() {
         return;
     }
     await restablecerContrasena(correoElectronico);
+    alert("Link de restablecimiento de contraseña enviado. Revisa tu bandeja de entrada.");
 });
