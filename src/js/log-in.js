@@ -1,5 +1,5 @@
 import { iniciarSesion } from "./funciones_firebase.js";
-import { obtenerContrasenaPorId, obtenerCorreoElectronicoPorId } from "./funciones_input.js";
+import {limpiarCampoPorId, obtenerContrasenaPorId, obtenerCorreoElectronicoPorId} from "./funciones_input.js";
 
 var btnIniciarLogin = document.getElementById("btn_login");
 btnIniciarLogin.addEventListener("click",  async function() {
@@ -24,6 +24,8 @@ btnIniciarLogin.addEventListener("click",  async function() {
         console.error("Un error grave ha ocurrido. Toca revisar la función de registro.");
         return;
     }
+    limpiarCampoPorId("correo_electronico_login");
+    limpiarCampoPorId("contrasena_login");
     if (tipoUsuario === "voluntario") {
         window.location.href = "./home_voluntario.html";
     } else if (tipoUsuario === "organización") {
