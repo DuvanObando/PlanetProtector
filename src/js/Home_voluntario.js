@@ -17,5 +17,5 @@ const elementoOfertas = document.getElementById("ofertas");
 elementoOfertas.innerHTML = "";
 const ofertas = await cargarOfertas(["playa"]);
 for (const oferta of ofertas) {
-    elementoOfertas.innerHTML += generarOferta(oferta.data());
+    elementoOfertas.innerHTML += await generarOferta(oferta.data());
 }
