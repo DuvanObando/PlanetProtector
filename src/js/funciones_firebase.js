@@ -1,6 +1,23 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    sendPasswordResetEmail,
+    signInWithEmailAndPassword,
+    updateProfile
+} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    query,
+    setDoc,
+    where,
+} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import {getDownloadURL, getStorage, ref} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCWginihqxxOLUh6IZI4nOqI6Nmb02qsoQ",
@@ -16,9 +33,43 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en
 // una base de datos convencional.
+
+export async function generarOferta(datosOferta) {
+    const URLFoto = await obtenerURLArchivo(datosOferta["foto"] + "/foto.png");
+    return `<button>
+        <div>
+            <img src="${URLFoto}" alt="Foto de oferta">
+        </div>
+        <div>
+            ${datosOferta["descripcion"]}
+        </div>
+    </button>`;
+}
+
+// Retorna un url de descarga para un archivo en la base de datos.
+export async function obtenerURLArchivo(ubicacionArchivo) {
+    try {
+        return await getDownloadURL(ref(storage, ubicacionArchivo));
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de obtener el archivo " + ubicacionArchivo);
+    }
+}
+
+// Retorna el objeto con la información de la oferta, sacado de la base de datos.
+export async function cargarOfertas(preferencias) {
+    // Una búsqueda que retorna todas las ofertas que contengan al menos alguna de las preferencias.
+    var ofertas = [];
+    const q = query(collection(db, "ofertas"), where("preferencias", "array-contains-any", preferencias));
+    const snapshotQuery = await getDocs(q);
+    snapshotQuery.forEach((doc) => {
+        ofertas.push(doc);
+    })
+    return ofertas;
+}
 
 // Mira si un registro en la colección 'coleccion' con id 'id_registro' existe.
 export async function existeRegistro(coleccion, idRegistro) {
@@ -37,7 +88,7 @@ export async function iniciarSesion(correoElectronico, contrasena) {
         usuario = credencialesUsuario.user;
         if (await existeRegistro("voluntarios", usuario.uid)) {
             tipoUsuario = "voluntario";
-        } else if (await existeRegistro("organizaiones", usuario.uid)) {
+        } else if (await existeRegistro("organizaciones", usuario.uid)) {
             tipoUsuario = "organización";
         }
     } catch (error) {
@@ -102,7 +153,7 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
         }
         try {
             await setDoc(doc(db, "organizaciones", organizacion.uid), {
-                numeroDocumento: informacionOrganizacional["numeroDocumento"],
+                numeroDocumento: informacionOrganizacional["nit"],
             })
         } catch (error) {
             mostrarErrorEnConsola(error, "Error al momento de crear documento de organización");

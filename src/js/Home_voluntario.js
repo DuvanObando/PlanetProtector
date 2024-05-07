@@ -1,3 +1,6 @@
+import {cargarOfertas, generarOferta, obtenerURLArchivo} from "./funciones_firebase.js";
+// import '../css/home_voluntario.css';
+
 // --------------FUNCION NAVBAR------------
 
 const iconmenu = document.querySelector('.bx_menu')
@@ -9,3 +12,10 @@ iconmenu.addEventListener('click', function(){
 })
 
 //----------------------FIN----------------------
+
+const elementoOfertas = document.getElementById("ofertas");
+elementoOfertas.innerHTML = "";
+const ofertas = await cargarOfertas(["playa"]);
+for (const oferta of ofertas) {
+    elementoOfertas.innerHTML += generarOferta(oferta.data());
+}

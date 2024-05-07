@@ -21,7 +21,7 @@ btnIniciarLogin.addEventListener("click",  async function() {
         return;
     }
     if (tipoUsuario == null) {
-        console.error("Un error grave ha ocurrido. Toca revisar la función de registro.");
+        console.error("Un error grave ha ocurrido. Toca revisar la función de registro o login.");
         return;
     }
     limpiarCampoPorId("correo_electronico_login");
