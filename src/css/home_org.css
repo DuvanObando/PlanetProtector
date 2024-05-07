@@ -26,11 +26,6 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--text-color);
-}
-
-ul {
-    list-style: none;
 }
 
 button :hover {
@@ -106,11 +101,15 @@ button :hover {
     transition: left 1s;
 }
 
+.menu a {
+    color: var(--button-color);
+}
+
 .menu_show {
     left: 0;
 }
 
-li:hover {
+.menu a:hover {
     cursor: pointer;
     background-color: var(--text-color);
     text-align: center;
