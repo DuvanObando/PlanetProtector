@@ -113,6 +113,7 @@ section{
 input {
     border: none;
     background-color: transparent;
+    color: var(--button-color);
 }
 
 .box_btn {

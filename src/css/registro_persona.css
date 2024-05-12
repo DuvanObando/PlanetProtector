@@ -72,6 +72,7 @@ button :hover {
 input {
     border: none;
     background-color: transparent;
+    color: var(--button-color);
 } 
 
 section {
