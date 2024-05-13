@@ -118,39 +118,3 @@ a {
     transform: scale(1.1);
     transition: 1s;
 }
-
-
-.img_publicidad {
-    padding-top: 4rem;
-    text-align: center;
-}
-
-.img_publicidad img {
-    width: 50%; /* La imagen ocupará el 50% del ancho del contenedor */
-    height: auto; /* La altura se ajusta automáticamente para mantener la proporción */
-    border-radius: 2rem;
-}
-
-.ofertas {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin: 5rem;
-}
-
-.box_ofertas {
-    background-color: var(--button-color-alt);
-    display: flex;
-    justify-content: space-between;
-    border-color: transparent;
-    border-radius: 0.9rem;
-    gap: 1rem;
-}
-
-.info_ofertas {
-    color: var(--button-color);
-    display: flex;
-    align-items: center;
-    text-align: left;
-    margin: 1.5rem 1.5rem 1.5rem 0;
-}
