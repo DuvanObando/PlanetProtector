@@ -7,6 +7,7 @@ import {
     updateProfile
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 import {
+    addDoc,
     collection,
     doc,
     getDoc,
@@ -16,7 +17,12 @@ import {
     setDoc,
     where,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
-import {getDownloadURL, getStorage, ref} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js'
+import {
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytes,
+} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js'
 
 
 const firebaseConfig = {
@@ -35,60 +41,86 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en
-// una base de datos convencional.
+// En Firebase, una colección es un grupo de documentos. Los documentos son equivalentes a los registros en una base de datos convencional.
 
-export async function generarOferta(datosOferta) {
-    const URLFoto = await obtenerURLArchivo(datosOferta["foto"] + "/foto.png");
-    return `<button>
-        <div>
-            <img src="${URLFoto}" alt="Foto de oferta">
-        </div>
-        <div>
-            ${datosOferta["descripcion"]}
-        </div>
-    </button>`;
+// Crea un documento en la base de datos, y retorna el id de tal documento.
+export async function crearDocumento(nombreColeccion, datos) {
+    try {
+        const referenciaDocumento = await addDoc(collection(db, nombreColeccion), datos);
+        return referenciaDocumento.id;
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de crear documento.");
+    }
 }
 
-// Retorna un url de descarga para un archivo en la base de datos.
-export async function obtenerURLArchivo(ubicacionArchivo) {
+// Edita cierto documento con el id especificado.
+// Si el documento no existe, lo crea.
+export async function editarDocumento(nombreColeccion, id, datos) {
     try {
-        return await getDownloadURL(ref(storage, ubicacionArchivo));
+        await setDoc(doc(db, nombreColeccion, id), datos);
     } catch (error) {
-        mostrarErrorEnConsola(error, "Error al momento de obtener el archivo " + ubicacionArchivo);
+        mostrarErrorEnConsola(error, "Error al momento de crear documento con id.");
     }
+}
+
+// Retorna una lista de documentos que pasen el filtro (un query).
+export async function cargarDocumentos(filtro) {
+    const documentos = [];
+    try {
+        const snapshotQuery = await getDocs(filtro);
+        snapshotQuery.forEach((doc) => {
+            documentos.push(doc);
+        });
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de cargar documentos.");
+    }
+    return documentos;
 }
 
 // Retorna el objeto con la información de la oferta, sacado de la base de datos.
 export async function cargarOfertas(preferencias) {
     // Una búsqueda que retorna todas las ofertas que contengan al menos alguna de las preferencias.
-    var ofertas = [];
     const q = query(collection(db, "ofertas"), where("preferencias", "array-contains-any", preferencias));
-    const snapshotQuery = await getDocs(q);
-    snapshotQuery.forEach((doc) => {
-        ofertas.push(doc);
-    })
-    return ofertas;
+    return await cargarDocumentos(q);
 }
 
 // Mira si un registro en la colección 'coleccion' con id 'id_registro' existe.
-export async function existeRegistro(coleccion, idRegistro) {
-    const referenciaDocumento = doc(db, coleccion, idRegistro);
-    const snapshotDocumento = await getDoc(referenciaDocumento);
-    return snapshotDocumento.exists();
+export async function existeDocumento(nombreColeccion, id) {
+    const referenciaDocumento = doc(db, nombreColeccion, id);
+    try {
+        const snapshotDocumento = await getDoc(referenciaDocumento);
+        return snapshotDocumento.exists();
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de comprobar la existencia de un registro.");
+    }
+}
+
+// A partir de la información de una oferta, construye la estructura en html.
+export async function generarOferta(datosOferta) {
+    const URLFoto = await obtenerURLArchivo(datosOferta["foto"] + "/foto.png");
+    return `<button class="box_ofertas">
+        <div>    
+            <div style="display: flex; align-content: center;">
+                <img src="${URLFoto}" alt="Foto de oferta">
+            </div>
+            <div>
+                ${datosOferta["descripcion"]}
+            </div>
+        </div>
+    </button>`;
 }
 
 // Inicia sesión de usuario y retorna al objeto que lo representa.
 // Puede retornar null si hay un error al momento de iniciar sesión.
 export async function iniciarSesion(correoElectronico, contrasena) {
-    var usuario;
-    var tipoUsuario;
+    let usuario;
+    let tipoUsuario;
     try {
         const credencialesUsuario = await signInWithEmailAndPassword(auth, correoElectronico, contrasena);
         usuario = credencialesUsuario.user;
-        if (await existeRegistro("voluntarios", usuario.uid)) {
+        if (await existeDocumento("voluntarios", usuario.uid)) {
             tipoUsuario = "voluntario";
-        } else if (await existeRegistro("organizaciones", usuario.uid)) {
+        } else if (await existeDocumento("organizaciones", usuario.uid)) {
             tipoUsuario = "organización";
         }
     } catch (error) {
@@ -102,6 +134,15 @@ export function mostrarErrorEnConsola(error, mensaje) {
     console.error(mensaje);
     console.error(`Código del error: ${error.code}`);
     console.error(`Mensaje del error: ${error.message}`);
+}
+
+// Retorna un url de descarga para un archivo en la base de datos.
+export async function obtenerURLArchivo(ubicacionArchivo) {
+    try {
+        return await getDownloadURL(ref(storage, ubicacionArchivo));
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de obtener el archivo " + ubicacionArchivo);
+    }
 }
 
 // Manda un link de restablecimiento de contraseña al correo proveído.
@@ -126,13 +167,9 @@ export async function registrarVoluntario(correoElectronico, contrasena, informa
         } catch (error) {
             mostrarErrorEnConsola(error, "Error al momento de editar información de usuario");
         }
-        try {
-            await setDoc(doc(db, "voluntarios", voluntario.uid), {
-                numeroDocumento: informacionPersonal["numeroDocumento"],
-            })
-        } catch (error) {
-            mostrarErrorEnConsola(error, "Error al momento de crear documento");
-        }
+        await editarDocumento("voluntarios", voluntario.uid, {
+            numeroDocumento: informacionPersonal["numeroDocumento"],
+        });
     } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de crear usuario");
     }
@@ -151,14 +188,18 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
         } catch (error) {
             mostrarErrorEnConsola(error, "Error al momento de editar información de organización");
         }
-        try {
-            await setDoc(doc(db, "organizaciones", organizacion.uid), {
-                numeroDocumento: informacionOrganizacional["nit"],
-            })
-        } catch (error) {
-            mostrarErrorEnConsola(error, "Error al momento de crear documento de organización");
-        }
+        await editarDocumento("organizaciones", organizacion.uid, {
+            numeroDocumento: informacionOrganizacional["nit"],
+        });
     } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de crear organización");
     }
+}
+
+// Sube un archivo en la ubicación específicada en Firebase.
+export async function subirArchivo(archivo, ubicacion) {
+    // Referencia remota del archivo en Firebase
+    const referenciaArchivo = ref(storage, `${ubicacion}/${archivo["name"]}`);
+    const snapshot = await uploadBytes(referenciaArchivo, archivo);
+    console.log(snapshot);
 }
