@@ -145,6 +145,10 @@ export async function obtenerURLArchivo(ubicacionArchivo) {
     }
 }
 
+export function obtenerUsuarioActivo() {
+    return auth.currentUser;
+}
+
 // Manda un link de restablecimiento de contraseña al correo proveído.
 export async function restablecerContrasena(correoElectronico) {
     try {
@@ -197,9 +201,8 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
 }
 
 // Sube un archivo en la ubicación específicada en Firebase.
-export async function subirArchivo(archivo, ubicacion) {
+export async function subirArchivo(archivo, ubicacion, nombreArchivo = archivo["name"]) {
     // Referencia remota del archivo en Firebase
-    const referenciaArchivo = ref(storage, `${ubicacion}/${archivo["name"]}`);
+    const referenciaArchivo = ref(storage, `${ubicacion}/${nombreArchivo}`);
     const snapshot = await uploadBytes(referenciaArchivo, archivo);
-    console.log(snapshot);
 }

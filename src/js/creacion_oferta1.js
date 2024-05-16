@@ -1,4 +1,4 @@
-import {crearDocumento, editarDocumento, subirArchivo} from "./funciones_firebase.js";
+import {crearDocumento, editarDocumento, obtenerUsuarioActivo, subirArchivo} from "./funciones_firebase.js";
 
 // --------------FUNCION NAVBAR------------
 
@@ -22,6 +22,10 @@ const elementoLimiteParticipantes = document.getElementById("limite_participante
 
 const elementoBotonGuardar = document.getElementById("btn_Guardar_creacion_oferta");
 elementoBotonGuardar.addEventListener("click", async function() {
+    if (obtenerUsuarioActivo()) {} else {
+        alert("Las credenciales del usuario ya no son válidas, inicie sesión nuevamente.");
+        return;
+    }
     if (elementoImagen.value === "") {
         alert("No ha seleccionado una imagen.");
         return;
@@ -46,7 +50,7 @@ elementoBotonGuardar.addEventListener("click", async function() {
     const idOferta = await crearDocumento("ofertas", {});
     const datosOferta = {
         descripcion: elementoDescripcion.value,
-        foto: `imagenes_oferta/${idOferta}`,
+        foto: `imagenes_ofertas/${idOferta}`,
         horarios: [
             {
                 dias: [],
@@ -65,10 +69,12 @@ elementoBotonGuardar.addEventListener("click", async function() {
             },
         ],
         preferencias: [],
+        publicante: obtenerUsuarioActivo().uid,
         titulo: elementoTitulo.value,
         ubicacion: elementoUbicacion.value,
         estado: true,
     };
     await editarDocumento("ofertas", idOferta, datosOferta);
-    await subirArchivo(elementoImagen.files[0]);
+    let imagen = elementoImagen.files[0];
+    await subirArchivo(imagen, `imagenes_ofertas/${idOferta}`, "foto.png");
 })
