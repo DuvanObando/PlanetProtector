@@ -118,3 +118,52 @@ a {
     transform: scale(1.1);
     transition: 1s;
 }
+
+section {
+    margin-top: 3rem;
+}
+
+section h1 {
+    margin-left: 1rem;
+    color: var(--text-color);
+    border-color: black;
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+
+.contenedor {
+    display: flex;
+    flex-direction: column;
+}
+
+.box_info {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1.5rem;
+    margin: 0.5rem;
+    background-color: var(--button-color-alt);
+    border-radius: 0.5rem;
+}
+
+.box_info:hover {
+    cursor: pointer;
+    background-color: var(--first-color);
+    transition: 1s;
+}
+
+.box_info p {
+    margin: 0 0.5rem;
+    color: var(--button-color);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    margin-left: 0.2rem;
+}
+
+.icon svg:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+    transition: 1s;
+}
