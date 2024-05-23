@@ -197,7 +197,7 @@ input:hover {
     transition: 1s;
 }
 
-.btn_Guardar {
+.box_btn button{
     background-color: var(--button-color-alt);
     color: var(--button-color);
     font-weight: bold;
@@ -206,7 +206,7 @@ input:hover {
     border-color: transparent;
 }
 
-.btn_Guardar:hover {
+.box_btn button:hover {
     cursor: pointer;
     background-color: var(--first-color);
     transition: 1s;
