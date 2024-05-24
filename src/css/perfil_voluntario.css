@@ -176,6 +176,18 @@ section h1 {
     gap: 2rem;
 }
 
+.descripcion_box h3{
+    margin-top: 0.5rem;
+    color: var(--text-color);
+    border-color: black;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.descripcion_box:hover h3{
+    color: var(--button-color);
+}
+
 .btn {
     display: flex;
     flex-direction: column;
