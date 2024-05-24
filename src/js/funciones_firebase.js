@@ -53,14 +53,9 @@ export async function crearDocumento(nombreColeccion, datos) {
     }
 }
 
-// Edita cierto documento con el id especificado.
-// Si el documento no existe, lo crea.
-export async function editarDocumento(nombreColeccion, id, datos) {
-    try {
-        await setDoc(doc(db, nombreColeccion, id), datos);
-    } catch (error) {
-        mostrarErrorEnConsola(error, "Error al momento de crear documento con id.");
-    }
+export async function cargarDocumento(nombreColeccion, id) {
+    const referenciaDocumento = doc(db, nombreColeccion, id);
+    return await getDoc(referenciaDocumento);
 }
 
 // Retorna una lista de documentos que pasen el filtro (un query).
@@ -84,9 +79,19 @@ export async function cargarOfertas(preferencias) {
     return await cargarDocumentos(q);
 }
 
-export async function cargarOfertasEnProceso(idVoluntario) {
+export async function cargarPostulacionesEnProceso(idVoluntario) {
     const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario));
     return await cargarDocumentos(q);
+}
+
+// Edita cierto documento con el id especificado.
+// Si el documento no existe, lo crea.
+export async function editarDocumento(nombreColeccion, id, datos) {
+    try {
+        await setDoc(doc(db, nombreColeccion, id), datos);
+    } catch (error) {
+        mostrarErrorEnConsola(error, "Error al momento de crear documento con id.");
+    }
 }
 
 // Mira si un registro en la colección 'coleccion' con id 'id_registro' existe.
@@ -148,10 +153,6 @@ export async function obtenerURLArchivo(ubicacionArchivo) {
     } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de obtener el archivo " + ubicacionArchivo);
     }
-}
-
-export function obtenerUsuarioActivo() {
-    return auth.currentUser;
 }
 
 // Manda un link de restablecimiento de contraseña al correo proveído.

@@ -1,4 +1,4 @@
-import {crearDocumento, editarDocumento, obtenerURLArchivo, obtenerUsuarioActivo} from "./funciones_firebase.js";
+import {crearDocumento, obtenerURLArchivo} from "./funciones_firebase.js";
 
 // --------------FUNCION NAVBAR------------
 
@@ -33,9 +33,9 @@ elementoBtnAplicar.addEventListener("click", async function() {
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = today.getFullYear();
     const idPostulacion = await crearDocumento("postulaciones", {
-        fecha: mm + '/' + dd + '/' + yyyy,
-        voluntario: obtenerUsuarioActivo().uid,
-        publicacion: sessionStorage.getItem("id_oferta"),
+        fecha: yyyy + "-" + mm + "-" + dd,
+        voluntario: JSON.parse(localStorage.getItem("usuario")).uid,
+        oferta: sessionStorage.getItem("id_oferta"),
         estado: "proceso",
     });
     sessionStorage.clear();

@@ -1,4 +1,4 @@
-import {crearDocumento, editarDocumento, obtenerUsuarioActivo, subirArchivo} from "./funciones_firebase.js";
+import {crearDocumento, editarDocumento, subirArchivo} from "./funciones_firebase.js";
 
 // --------------FUNCION NAVBAR------------
 
@@ -54,7 +54,7 @@ elementoLimiteParticipantes.addEventListener("change", function() {
 });
 
 elementoBtnGuardar.addEventListener("click", async function() {
-    if (obtenerUsuarioActivo()) {} else {
+    if (JSON.parse(localStorage.getItem("usuario"))) {} else {
         alert("Las credenciales del usuario ya no son válidas, inicie sesión nuevamente.");
         return;
     }
@@ -109,7 +109,7 @@ elementoBtnGuardar.addEventListener("click", async function() {
             }
         ],
         preferencias: JSON.parse(sessionStorage.getItem("preferencias")),
-        publicante: obtenerUsuarioActivo().uid,
+        publicante: JSON.parse(localStorage.getItem("usuario")).uid,
         titulo: elementoTitulo.value,
         ubicacion: elementoUbicacion.value,
         estado: true,

@@ -26,6 +26,8 @@ btnIniciarLogin.addEventListener("click",  async function() {
     }
     limpiarCampoPorId("correo_electronico_login");
     limpiarCampoPorId("contrasena_login");
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+    localStorage.setItem("tipoUsuario", JSON.stringify(tipoUsuario));
     if (tipoUsuario === "voluntario") {
         window.location.href = "./home_voluntario.html";
     } else if (tipoUsuario === "organización") {
