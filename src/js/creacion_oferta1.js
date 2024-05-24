@@ -78,6 +78,10 @@ elementoBtnGuardar.addEventListener("click", async function() {
         alert("No ha ingresado límite de participantes.");
         return;
     }
+    if (isNaN(elementoLimiteParticipantes.value)) {
+        alert("El límite de participantes tiene que ser un número.");
+        return;
+    }
     if (sessionStorage.getItem("preferencias") == null || sessionStorage.getItem("preferencias").length === 0) {
         alert("Se debe seleccionar al menos una preferencia.");
         return;

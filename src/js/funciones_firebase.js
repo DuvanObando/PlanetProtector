@@ -84,6 +84,11 @@ export async function cargarOfertas(preferencias) {
     return await cargarDocumentos(q);
 }
 
+export async function cargarOfertasEnProceso(idVoluntario) {
+    const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario));
+    return await cargarDocumentos(q);
+}
+
 // Mira si un registro en la colección 'coleccion' con id 'id_registro' existe.
 export async function existeDocumento(nombreColeccion, id) {
     const referenciaDocumento = doc(db, nombreColeccion, id);

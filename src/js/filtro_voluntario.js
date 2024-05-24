@@ -1,5 +1,7 @@
 // --------------FUNCION NAVBAR------------
 
+import {cargarOfertasEnProceso, obtenerURLArchivo, obtenerUsuarioActivo} from "./funciones_firebase.js";
+
 const iconmenu = document.querySelector('.bx_menu')
 const menu = document.querySelector('.menu')
 const oferta = document.querySelector('.oferta')
@@ -11,3 +13,14 @@ iconmenu.addEventListener('click', function(){
 })
 
 //----------------------FIN----------------------
+
+const elementoOfertasEnProceso = document.getElementById("ofertas_en_proceso");
+elementoOfertasEnProceso.innerHTML = "<h2>En Proceso</h2>";
+const ofertas = await cargarOfertasEnProceso(obtenerUsuarioActivo().uid);
+for (const oferta of ofertas) {
+    const URLFoto = await obtenerURLArchivo(oferta.foto + "/foto.png");
+    elementoOfertasEnProceso.innerHTML += `<div class="img img_proceso">
+    <h5>${oferta.titulo}</h5>
+    <img src=${URLFoto} alt="Foto oferta">
+    </div>`;
+}
