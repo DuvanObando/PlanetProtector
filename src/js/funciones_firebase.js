@@ -98,7 +98,7 @@ export async function existeDocumento(nombreColeccion, id) {
 // A partir de la información de una oferta, construye la estructura en html.
 export async function generarOferta(datosOferta) {
     const URLFoto = await obtenerURLArchivo(datosOferta["foto"] + "/foto.png");
-    return `<button class="box_ofertas">
+    return `<button id=${datosOferta["foto"] + "/foto.png"} class="box_ofertas">
         <div>    
             <div style="display: flex; align-content: center;">
                 <img src="${URLFoto}" alt="Foto de oferta">
