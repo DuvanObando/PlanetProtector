@@ -28,11 +28,17 @@ elementoDescripcion.innerHTML = `<p>${sessionStorage.getItem("descripcion")}</p>
 elementoHorario.innerText = sessionStorage.getItem("horario");
 elementoUbicacion.innerText = sessionStorage.getItem("ubicacion");
 elementoBtnAplicar.addEventListener("click", async function() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
     const idPostulacion = await crearDocumento("postulaciones", {
-        fecha: Date.now(),
+        fecha: mm + '/' + dd + '/' + yyyy,
         voluntario: obtenerUsuarioActivo().uid,
         publicacion: sessionStorage.getItem("id_oferta"),
+        estado: "proceso",
     });
+    sessionStorage.clear();
     alert("Postulado correctamente");
     window.location.href = "./home_voluntario.html";
 });
