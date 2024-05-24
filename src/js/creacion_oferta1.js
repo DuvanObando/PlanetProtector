@@ -19,9 +19,41 @@ const elementoTitulo = document.getElementById("titulo_creacion_oferta");
 const elementoDescripcion = document.getElementById("descripcion_creacion_oferta");
 const elementoUbicacion = document.getElementById("ubicacion_creacion_oferta");
 const elementoLimiteParticipantes = document.getElementById("limite_participantes_creacion_oferta");
+const elementoBtnGuardar = document.getElementById("btn_Guardar_creacion_oferta");
 
-const elementoBotonGuardar = document.getElementById("btn_Guardar_creacion_oferta");
-elementoBotonGuardar.addEventListener("click", async function() {
+// TODO: Guardar el objeto File persistentemente entre páginas.
+// elementoImagen.files[0] = JSON.parse(sessionStorage.getItem("imagen")) ?? "";
+elementoImagen.addEventListener("change", function() {
+    // Esto no funciona.
+    sessionStorage.setItem("imagen", JSON.stringify(elementoImagen.files[0]));
+});
+elementoTitulo.value = sessionStorage.getItem("titulo") ?? "";
+elementoTitulo.addEventListener("change", function() {
+    sessionStorage.setItem("titulo", elementoTitulo.value);
+});
+elementoDescripcion.value = sessionStorage.getItem("descripcion") ?? "";
+elementoDescripcion.addEventListener("change", function() {
+    sessionStorage.setItem("descripcion", elementoDescripcion.value);
+});
+elementoUbicacion.value = sessionStorage.getItem("ubicacion") ?? "";
+elementoUbicacion.addEventListener("change", function() {
+    sessionStorage.setItem("ubicacion", elementoUbicacion.value);
+});
+elementoLimiteParticipantes.value = sessionStorage.getItem("limite_participantes") ?? "";
+elementoLimiteParticipantes.addEventListener("change", function() {
+    if (isNaN(elementoLimiteParticipantes.value)) {
+        alert("El límite de participantes tiene que ser un número.");
+        return;
+    }
+    elementoLimiteParticipantes.value = parseInt(elementoLimiteParticipantes.value);
+    if (elementoLimiteParticipantes < 1) {
+        alert("El límite de participantes tiene que ser un número entero positivo.");
+        return;
+    }
+    sessionStorage.setItem("limite_participantes", elementoLimiteParticipantes.value);
+});
+
+elementoBtnGuardar.addEventListener("click", async function() {
     if (obtenerUsuarioActivo()) {} else {
         alert("Las credenciales del usuario ya no son válidas, inicie sesión nuevamente.");
         return;
@@ -46,35 +78,40 @@ elementoBotonGuardar.addEventListener("click", async function() {
         alert("No ha ingresado límite de participantes.");
         return;
     }
+    if (sessionStorage.getItem("preferencias") == null || sessionStorage.getItem("preferencias").length === 0) {
+        alert("Se debe seleccionar al menos una preferencia.");
+        return;
+    }
+    if (sessionStorage.getItem("fecha_inicial") == null) {
+        alert("Se debe especificar los horarios y fechas.");
+        return;
+    }
 
     const idOferta = await crearDocumento("ofertas", {});
     const datosOferta = {
         descripcion: elementoDescripcion.value,
+        fechas: {
+            inicial: sessionStorage.getItem("fecha_inicial"),
+            final: sessionStorage.getItem("fecha_final"),
+        },
         foto: `imagenes_ofertas/${idOferta}`,
         horarios: [
             {
-                dias: [],
-                rango_horas: {
-                    hora_final: {
-                        horas: -1,
-                        minutos: -1,
-                        segundos: -1,
-                    },
-                    hora_inicial: {
-                        horas: -1,
-                        minutos: -1,
-                        segundos: -1,
-                    }
-                },
-            },
+                dias: JSON.parse(sessionStorage.getItem("dias")),
+                horas: {
+                    inicial: sessionStorage.getItem("hora_inicial"),
+                    final: sessionStorage.getItem("hora_final"),
+                }
+            }
         ],
-        preferencias: [],
+        preferencias: JSON.parse(sessionStorage.getItem("preferencias")),
         publicante: obtenerUsuarioActivo().uid,
         titulo: elementoTitulo.value,
         ubicacion: elementoUbicacion.value,
         estado: true,
     };
     await editarDocumento("ofertas", idOferta, datosOferta);
-    let imagen = elementoImagen.files[0];
-    await subirArchivo(imagen, `imagenes_ofertas/${idOferta}`, "foto.png");
-})
+    await subirArchivo(elementoImagen.files[0], `imagenes_ofertas/${idOferta}`, "foto.png");
+    sessionStorage.clear();
+    window.location.href = "./Home_voluntario.html";
+});
