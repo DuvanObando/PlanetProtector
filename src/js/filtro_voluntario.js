@@ -1,6 +1,8 @@
-// --------------FUNCION NAVBAR------------
-
 import {cargarDocumento, cargarPostulaciones, obtenerURLArchivo} from "./funciones_firebase.js";
+import {generarOfertaPostulada} from "./funciones_generadoras.js";
+import {guardarDatosOferta} from "./funciones_almacenamiento.js";
+
+// --------------FUNCION NAVBAR------------
 
 const iconmenu = document.querySelector('.bx_menu')
 const menu = document.querySelector('.menu')
@@ -13,18 +15,6 @@ iconmenu.addEventListener('click', function(){
 })
 
 //----------------------FIN----------------------
-
-function vistaPreviaOferta(URLFoto, titulo, estado) {
-    const clase_oferta = {
-        "proceso": "img_proceso",
-        "aceptada": "img_aceptadas",
-        "rechazada": "img_rechazadas",
-    };
-    return `<div class="img ${clase_oferta[estado]}">
-    <h5>${titulo}</h5>
-    <img src=${URLFoto} alt="Foto oferta">
-    </div>`;
-}
 
 const elementoOfertasEnProceso = document.getElementById("ofertas_en_proceso");
 elementoOfertasEnProceso.innerHTML = "<h2>En Proceso</h2>";
@@ -43,13 +33,18 @@ for (const postulacion of postulaciones) {
     const URLFoto = await obtenerURLArchivo(oferta.data().foto + "/foto.png");
     switch (postulacion.data().estado) {
         case "proceso":
-            elementoOfertasEnProceso.innerHTML += vistaPreviaOferta(URLFoto, oferta.data().titulo, "proceso");
+            elementoOfertasEnProceso.innerHTML += generarOfertaPostulada(URLFoto, oferta.data().titulo, "proceso");
             break;
         case "aceptada":
-            elementoOfertasAceptadas.innerHTML += vistaPreviaOferta(URLFoto, oferta.data().titulo, "aceptada");
+            elementoOfertasAceptadas.innerHTML += generarOfertaPostulada(URLFoto, oferta.data().titulo, "aceptada");
             break;
         case "rechazada":
-            elementoOfertasRechazadas.innerHTML += vistaPreviaOferta(URLFoto, oferta.data().titulo, "rechazada");
+            elementoOfertasRechazadas.innerHTML += generarOfertaPostulada(URLFoto, oferta.data().titulo, "rechazada");
             break;
     }
+    const elementoVistaPreviaOferta = document.getElementById(URLFoto);
+    elementoVistaPreviaOferta.addEventListener("click", function() {
+        guardarDatosOferta(oferta);
+        window.location.href = "./selec_oferta.html";
+    });
 }
