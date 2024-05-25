@@ -79,8 +79,8 @@ export async function cargarOfertas(preferencias) {
     return await cargarDocumentos(q);
 }
 
-export async function cargarPostulacionesEnProceso(idVoluntario) {
-    const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario));
+export async function cargarPostulaciones(idVoluntario, estado) {
+    const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario), where("estado", "==", estado));
     return await cargarDocumentos(q);
 }
 
