@@ -1,4 +1,5 @@
-import {cargarOfertas, generarOferta} from "./funciones_firebase.js";
+import {cargarOfertas} from "./funciones_firebase.js";
+import {generarOferta} from "./main.js";
 // import '../css/home_voluntario.css';
 
 // --------------FUNCION NAVBAR------------

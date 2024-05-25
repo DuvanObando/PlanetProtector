@@ -53,6 +53,7 @@ export async function crearDocumento(nombreColeccion, datos) {
     }
 }
 
+// Retorna un objeto que representa un documento de la colección especificada con un id.
 export async function cargarDocumento(nombreColeccion, id) {
     const referenciaDocumento = doc(db, nombreColeccion, id);
     return await getDoc(referenciaDocumento);
@@ -79,6 +80,8 @@ export async function cargarOfertas(preferencias) {
     return await cargarDocumentos(q);
 }
 
+// Retorna una lista con los objetos que representan las postulaciones de cierto voluntario
+// con el estado proveído.
 export async function cargarPostulaciones(idVoluntario, estado) {
     const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario), where("estado", "==", estado));
     return await cargarDocumentos(q);
@@ -103,21 +106,6 @@ export async function existeDocumento(nombreColeccion, id) {
     } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de comprobar la existencia de un registro.");
     }
-}
-
-// A partir de la información de una oferta, construye la estructura en html.
-export async function generarOferta(datosOferta) {
-    const URLFoto = await obtenerURLArchivo(datosOferta["foto"] + "/foto.png");
-    return `<button id=${datosOferta["foto"] + "/foto.png"} class="box_ofertas">
-        <div>    
-            <div style="display: flex; align-content: center;">
-                <img src="${URLFoto}" alt="Foto de oferta">
-            </div>
-            <div>
-                ${datosOferta["descripcion"]}
-            </div>
-        </div>
-    </button>`;
 }
 
 // Inicia sesión de usuario y retorna al objeto que lo representa.
