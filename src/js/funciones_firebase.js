@@ -13,6 +13,7 @@ import {
     getDoc,
     getDocs,
     getFirestore,
+    onSnapshot,
     query,
     setDoc,
     where,
@@ -82,7 +83,7 @@ export async function cargarOfertas(preferencias) {
 
 // Retorna una lista con los objetos que representan las postulaciones de cierto voluntario
 // con el estado proveído.
-export async function cargarPostulaciones(idVoluntario, estado) {
+export async function cargarPostulacionesVoluntario(idVoluntario, estado) {
     const q = query(collection(db, "postulaciones"), where("voluntario", "==", idVoluntario), where("estado", "==", estado));
     return await cargarDocumentos(q);
 }
@@ -127,11 +128,17 @@ export async function iniciarSesion(correoElectronico, contrasena) {
     return [usuario, tipoUsuario];
 }
 
+
 // Una función para mostrar un error de firebase en la consola con un mensaje que indique la ubicación del error.
 export function mostrarErrorEnConsola(error, mensaje) {
     console.error(mensaje);
     console.error(`Código del error: ${error.code}`);
     console.error(`Mensaje del error: ${error.message}`);
+}
+
+// Retorna el objeto que representa a la base de datos.
+export function obtenerDB() {
+    return db;
 }
 
 // Retorna un url de descarga para un archivo en la base de datos.
@@ -158,14 +165,9 @@ export async function registrarVoluntario(correoElectronico, contrasena, informa
     try {
         const credencialesUsuario = await createUserWithEmailAndPassword(auth, correoElectronico, contrasena);
         const voluntario = credencialesUsuario.user;
-        try {
-            await updateProfile(voluntario, {
-                displayName: informacionPersonal["nombre"],
-            })
-        } catch (error) {
-            mostrarErrorEnConsola(error, "Error al momento de editar información de usuario");
-        }
         await editarDocumento("voluntarios", voluntario.uid, {
+            correoElectronico: correoElectronico,
+            nombre: informacionPersonal["nombre"],
             numeroDocumento: informacionPersonal["numeroDocumento"],
         });
     } catch (error) {
@@ -179,14 +181,9 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
     try {
         const credencialesUsuario = await createUserWithEmailAndPassword(auth, correoElectronico, contrasena);
         const organizacion = credencialesUsuario.user;
-        try {
-            await updateProfile(organizacion, {
-                displayName: informacionOrganizacional["nombre"],
-            })
-        } catch (error) {
-            mostrarErrorEnConsola(error, "Error al momento de editar información de organización");
-        }
         await editarDocumento("organizaciones", organizacion.uid, {
+            correoElectronico: correoElectronico,
+            nombre: informacionOrganizacional["nombre"],
             numeroDocumento: informacionOrganizacional["nit"],
         });
     } catch (error) {

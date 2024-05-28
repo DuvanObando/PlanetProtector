@@ -28,13 +28,15 @@ btnIniciarLogin.addEventListener("click",  async function() {
     limpiarCampoPorId("contrasena_login");
 
     // Guardado de datos del usuario que inició sesión.
+    localStorage.clear();
     localStorage.setItem("usuario", JSON.stringify(usuario));
     localStorage.setItem("tipo", tipoUsuario);
-    localStorage.setItem("nombre", usuario.displayName);
     localStorage.setItem("correoElectronico", usuario.email);
     if (tipoUsuario === "voluntario") {
         const voluntario = await cargarDocumento("voluntarios", usuario.uid);
         console.log(voluntario.data())
+        localStorage.setItem("correoElectronico", voluntario.data().correoElectronico);
+        localStorage.setItem("nombre", voluntario.data().nombre);
         localStorage.setItem("numeroDocumento", voluntario.data().numeroDocumento);
         localStorage.setItem("preferencias", JSON.stringify(voluntario.data().preferencias));
         localStorage.setItem("URLHojaVida", voluntario.data().URLHojaVida);
@@ -42,6 +44,8 @@ btnIniciarLogin.addEventListener("click",  async function() {
         localStorage.setItem("descripcion", voluntario.data().descripcion);
     } else if (tipoUsuario === "organización") {
         const organizacion = await cargarDocumento("organizaciones", usuario.uid);
+        localStorage.setItem("correoElectronico", organizacion.data().correoElectronico);
+        localStorage.setItem("nombre", organizacion.data().nombre);
         localStorage.setItem("nit", organizacion.data().nit);
     }
 

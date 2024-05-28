@@ -37,6 +37,7 @@ elementoBtnAplicar.addEventListener("click", async function() {
         voluntario: JSON.parse(localStorage.getItem("usuario")).uid,
         oferta: sessionStorage.getItem("id_oferta"),
         estado: "proceso",
+        confirmada: false,
     });
     sessionStorage.clear();
     alert("Postulado correctamente");

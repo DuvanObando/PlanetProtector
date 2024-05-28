@@ -1,4 +1,4 @@
-import {cargarDocumento, cargarPostulaciones, obtenerURLArchivo} from "./funciones_firebase.js";
+import {cargarDocumento, cargarPostulacionesVoluntario, obtenerURLArchivo} from "./funciones_firebase.js";
 import {generarOfertaPostulada} from "./funciones_generadoras.js";
 import {guardarDatosOferta} from "./funciones_almacenamiento.js";
 
@@ -23,9 +23,9 @@ elementoOfertasAceptadas.innerHTML = "<h2>Aceptadas</h2>";
 const elementoOfertasRechazadas = document.getElementById("ofertas_rechazadas");
 elementoOfertasRechazadas.innerHTML = "<h2>Rechazadas</h2>";
 
-const postulacionesProceso = await cargarPostulaciones(JSON.parse(localStorage.getItem("usuario")).uid, "proceso");
-const postulacionesAceptadas = await cargarPostulaciones(JSON.parse(localStorage.getItem("usuario")).uid, "aceptada");
-const postulacionesRechazadas = await cargarPostulaciones(JSON.parse(localStorage.getItem("usuario")).uid, "rechazada");
+const postulacionesProceso = await cargarPostulacionesVoluntario(JSON.parse(localStorage.getItem("usuario")).uid, "proceso");
+const postulacionesAceptadas = await cargarPostulacionesVoluntario(JSON.parse(localStorage.getItem("usuario")).uid, "aceptada");
+const postulacionesRechazadas = await cargarPostulacionesVoluntario(JSON.parse(localStorage.getItem("usuario")).uid, "rechazada");
 const postulaciones = postulacionesProceso.concat(postulacionesAceptadas).concat(postulacionesRechazadas);
 
 for (const postulacion of postulaciones) {
