@@ -15,7 +15,6 @@ import {generarOferta} from "./funciones_generadoras.js";
 
 const elementoOfertas = document.getElementById("ofertas_previas");
 elementoOfertas.innerHTML = "";
-window.location.href = "./selec_oferta.html";
 const ofertas = await cargarOfertas(["Aventura"]);
 for (const oferta of ofertas) {
     const URLFoto = await obtenerURLArchivo(oferta.data().foto + "/foto.png");
