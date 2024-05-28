@@ -77,7 +77,7 @@ export async function cargarDocumentos(filtro) {
 // Retorna el objeto con la información de la oferta, sacado de la base de datos.
 export async function cargarOfertas(preferencias) {
     // Una búsqueda que retorna todas las ofertas que contengan al menos alguna de las preferencias.
-    const q = query(collection(db, "ofertas"), where("preferencias", "array-contains-any", preferencias));
+    const q = query(collection(db, "ofertas"), where("preferencias", "array-contains-any", preferencias), where("estado", "==", true));
     return await cargarDocumentos(q);
 }
 
