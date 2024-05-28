@@ -1,6 +1,6 @@
 // De una oferta, guarda en sessionStorage todos los datos de una oferta.
 export function guardarDatosOferta(oferta) {
-    sessionStorage.setItem("foto", oferta.data().foto + "/foto.png");
+    sessionStorage.setItem("foto", oferta.data().foto);
     sessionStorage.setItem("titulo", oferta.data().titulo);
     sessionStorage.setItem("descripcion", oferta.data().descripcion);
     let horario = `Desde ${oferta.data().fechas.inicial} hasta ${oferta.data().fechas.final} los `;

@@ -1,6 +1,11 @@
+import {editarDocumento} from "./funciones_firebase.js";
+
 const elementosPreferencias = document.querySelectorAll("label[name='preferencias']");
-const elementoBtnGuardar = document.getElementById("btn_Guardar_preferencias_organizacion");
-let preferencias = JSON.parse(sessionStorage.getItem("preferencias") ?? "[]");
+const elementoBtnGuardar = document.getElementById("btn_Guardar_preferencias_voluntario");
+let preferencias = localStorage.getItem("preferencias");
+if (preferencias === "undefined") {
+    preferencias = [];
+}
 
 for (let elemento of elementosPreferencias) {
     if (preferencias.indexOf(elemento.innerHTML) !== -1) {
@@ -17,7 +22,10 @@ for (let elemento of elementosPreferencias) {
         elemento.style.backgroundColor = "gray";
     });
 }
-elementoBtnGuardar.addEventListener("click", function() {
-    sessionStorage.setItem("preferencias", JSON.stringify(preferencias));
-    window.location.href = "./creacion_oferta1.html";
+elementoBtnGuardar.addEventListener("click", async function() {
+    localStorage.setItem("preferencias", JSON.stringify(preferencias));
+    await editarDocumento("voluntarios", JSON.parse(localStorage.getItem("usuario")).uid, {
+        preferencias: preferencias,
+    });
+    window.location.href = "./perfil_voluntario.html";
 });

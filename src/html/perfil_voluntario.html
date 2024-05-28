@@ -50,31 +50,28 @@
 
                 <div class="user_box">
 
-                    <div class="icon_box">
+                    <div id="icono_perfil_voluntario" class="icon_box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" style="fill: rgba(138, 146, 45, 0.48);transform: ;msFilter:;"><path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3zM4 8a3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4 3.91 3.91 0 0 0-4 4zm6 0a1.91 1.91 0 0 1-2 2 1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2zM4 18a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1h2v-1a5 5 0 0 0-5-5H7a5 5 0 0 0-5 5v1h2z"></path></svg>
                     </div>
+                    <input id="selector_imagen_perfil_voluntario" type="file" style="display: none;">
     
                     <div class="info_box">
-                        <h2>ID</h2>
-                        <h2>Nombre</h2>
-                        <h2>Email</h2>
+                        <h2 id="numero_documento_perfil_voluntario">ID</h2>
+                        <h2 id="nombre_perfil_voluntario">Nombre</h2>
+                        <h2 id="correo_electronico_perfil_voluntario">Email</h2>
                     </div>
                 </div>
                 
                 <div class="descripcion_box">
                     <div class="btn">
-                        
-                        <button><input type="file"><h3>Añadir hoja de vida o CV</h3></button>
+                        <button id="btn_hoja_vida_perfil_voluntario"><h3>Añadir hoja de vida o CV</h3></button>
+                        <input id="selector_hoja_vida_perfil_voluntario" type="file" style="display: none;">
+                    </div>
+                    <div class="btn">
                         <a href="Preferencias_Voluntario.html"><button>Agregar Preferencias</button></a>
                     </div>
                     <div class="decrip_box">
-                        <input type="text" placeholder="Agregue una breve descripción">
-                    </div>
-                </div>
-
-                <div class="box_btn">
-                    <div>
-                        <button class="btn_editar">Editar</button>
+                        <input id="descripcion_perfil_voluntario" type="text" placeholder="Agregue una breve descripción">
                     </div>
                 </div>
             </div>

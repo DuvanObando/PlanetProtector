@@ -17,6 +17,6 @@ const elementoOfertas = document.getElementById("ofertas_previas");
 elementoOfertas.innerHTML = "";
 const ofertas = await cargarOfertas(["Aventura"]);
 for (const oferta of ofertas) {
-    const URLFoto = await obtenerURLArchivo(oferta.data().foto + "/foto.png");
+    const URLFoto = await obtenerURLArchivo(oferta.data().foto);
     elementoOfertas.innerHTML += generarOferta(URLFoto, oferta.data().titulo, oferta.data().descripcion);
 }

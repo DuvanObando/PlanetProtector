@@ -30,7 +30,7 @@ const postulaciones = postulacionesProceso.concat(postulacionesAceptadas).concat
 
 for (const postulacion of postulaciones) {
     const oferta = await cargarDocumento("ofertas", postulacion.data().oferta);
-    const URLFoto = await obtenerURLArchivo(oferta.data().foto + "/foto.png");
+    const URLFoto = await obtenerURLArchivo(oferta.data().foto);
     switch (postulacion.data().estado) {
         case "proceso":
             elementoOfertasEnProceso.innerHTML += generarOfertaPostulada(URLFoto, oferta.data().titulo, "proceso");

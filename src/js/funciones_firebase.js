@@ -91,7 +91,7 @@ export async function cargarPostulaciones(idVoluntario, estado) {
 // Si el documento no existe, lo crea.
 export async function editarDocumento(nombreColeccion, id, datos) {
     try {
-        await setDoc(doc(db, nombreColeccion, id), datos);
+        await setDoc(doc(db, nombreColeccion, id), datos, {merge: true});
     } catch (error) {
         mostrarErrorEnConsola(error, "Error al momento de crear documento con id.");
     }
@@ -194,9 +194,10 @@ export async function registrarOrganizacion(correoElectronico, contrasena, infor
     }
 }
 
-// Sube un archivo en la ubicación específicada en Firebase.
+// Sube un archivo en la ubicación específicada en Firebase. El nombre del archivo en la base de datos será, predeterminadamente, el mismo nombre del archivo en la máquina local.
 export async function subirArchivo(archivo, ubicacion, nombreArchivo = archivo["name"]) {
     // Referencia remota del archivo en Firebase
+    ubicacion = ubicacion.replace(/^\/*|\/*$/g, "");
     const referenciaArchivo = ref(storage, `${ubicacion}/${nombreArchivo}`);
     const snapshot = await uploadBytes(referenciaArchivo, archivo);
 }

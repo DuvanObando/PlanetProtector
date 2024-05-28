@@ -98,7 +98,7 @@ elementoBtnGuardar.addEventListener("click", async function() {
             inicial: sessionStorage.getItem("fecha_inicial"),
             final: sessionStorage.getItem("fecha_final"),
         },
-        foto: `imagenes_ofertas/${idOferta}`,
+        foto: `imagenes_ofertas/${idOferta}/foto.png`,
         horarios: [
             {
                 dias: JSON.parse(sessionStorage.getItem("dias")),

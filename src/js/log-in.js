@@ -1,4 +1,4 @@
-import { iniciarSesion } from "./funciones_firebase.js";
+import {cargarDocumento, iniciarSesion, obtenerURLArchivo} from "./funciones_firebase.js";
 import {limpiarCampoPorId, obtenerContrasenaPorId, obtenerCorreoElectronicoPorId} from "./funciones_input.js";
 
 var btnIniciarLogin = document.getElementById("btn_login");
@@ -26,8 +26,25 @@ btnIniciarLogin.addEventListener("click",  async function() {
     }
     limpiarCampoPorId("correo_electronico_login");
     limpiarCampoPorId("contrasena_login");
+
+    // Guardado de datos del usuario que inició sesión.
     localStorage.setItem("usuario", JSON.stringify(usuario));
-    localStorage.setItem("tipoUsuario", JSON.stringify(tipoUsuario));
+    localStorage.setItem("tipo", tipoUsuario);
+    localStorage.setItem("nombre", usuario.displayName);
+    localStorage.setItem("correoElectronico", usuario.email);
+    if (tipoUsuario === "voluntario") {
+        const voluntario = await cargarDocumento("voluntarios", usuario.uid);
+        console.log(voluntario.data())
+        localStorage.setItem("numeroDocumento", voluntario.data().numeroDocumento);
+        localStorage.setItem("preferencias", JSON.stringify(voluntario.data().preferencias));
+        localStorage.setItem("URLHojaVida", voluntario.data().URLHojaVida);
+        localStorage.setItem("URLFoto", voluntario.data().URLFoto);
+        localStorage.setItem("descripcion", voluntario.data().descripcion);
+    } else if (tipoUsuario === "organización") {
+        const organizacion = await cargarDocumento("organizaciones", usuario.uid);
+        localStorage.setItem("nit", organizacion.data().nit);
+    }
+
     if (tipoUsuario === "voluntario") {
         window.location.href = "./home_voluntario.html";
     } else if (tipoUsuario === "organización") {
