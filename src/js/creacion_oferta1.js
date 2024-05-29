@@ -91,7 +91,12 @@ elementoBtnGuardar.addEventListener("click", async function() {
         return;
     }
 
-    const idOferta = await crearDocumento("ofertas", {});
+    let idOferta;
+    if (sessionStorage.getItem("idOferta")) {
+        idOferta = sessionStorage.getItem("idOferta");
+    } else {
+        idOferta = await crearDocumento("ofertas", {});
+    }
     const datosOferta = {
         descripcion: elementoDescripcion.value,
         fechas: {
@@ -108,6 +113,7 @@ elementoBtnGuardar.addEventListener("click", async function() {
                 }
             }
         ],
+        limite_participantes: JSON.parse(sessionStorage.getItem("limite_participantes")),
         preferencias: JSON.parse(sessionStorage.getItem("preferencias")),
         publicante: JSON.parse(localStorage.getItem("usuario")).uid,
         titulo: elementoTitulo.value,
@@ -117,5 +123,5 @@ elementoBtnGuardar.addEventListener("click", async function() {
     await editarDocumento("ofertas", idOferta, datosOferta);
     await subirArchivo(elementoImagen.files[0], `imagenes_ofertas/${idOferta}`, "foto.png");
     sessionStorage.clear();
-    window.location.href = "./Home_voluntario.html";
+    window.location.href = "/src/html/Home_voluntario.html";
 });

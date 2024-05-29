@@ -51,10 +51,14 @@ for (const oferta of ofertas) {
         </div>
 
     </div>`;
+}
+for (const oferta of ofertas) {
     const elementoBotonEditar = document.getElementById(oferta.id + "editar");
     const elementoBotonEliminar = document.getElementById(oferta.id + "eliminar");
     elementoBotonEditar.addEventListener("click", function() {
+        console.log(oferta.data())
         guardarDatosOferta(oferta);
+        sessionStorage.setItem("idOferta", oferta.id);
         window.location.href = "./creacion_oferta1.html";
     });
     elementoBotonEliminar.addEventListener("click", async function() {
